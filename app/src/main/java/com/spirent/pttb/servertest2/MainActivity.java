@@ -110,15 +110,15 @@ public class MainActivity extends AppCompatActivity {
 
                 });
 
-        nmeaListener = new GpsStatus.NmeaListener() {
+        LM.addNmeaListener(new GpsStatus.NmeaListener()  {
             public void onNmeaReceived(long timestamp, String nmea) {
                 //check nmea's checksum
-                nmeaData = "etc";
+                nmeaData = nmea;
                 //text.setText(nmea);
                 Log.d("GPS-NMEA", nmea);
-            }
 
-            };
+        }
+    });
 
 
 
@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                                     (clientSocket.getOutputStream()));
                     //getLocation();
 
-                   out.write("etcTests");
+                   out.write(nmeaData);
                     out.newLine();
 
                     //out.newLine();
