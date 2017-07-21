@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 //check nmea's checksum
                 nmeaData = nmea;
                 //text.setText(nmea);
-                Log.d("GPS-NMEA", nmea);
+                //Log.d("GPS-NMEA", nmea);
 
         }
     });
