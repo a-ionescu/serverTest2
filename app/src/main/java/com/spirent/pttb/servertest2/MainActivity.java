@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int SERVERPORT = 6000;
 
-
     private LocationManager locationManager=null;
     private Criteria criteria=null;
     private LocationListener locationListener = null;
@@ -53,11 +52,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         text = (TextView) findViewById(R.id.text2);
-
-
-
-
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -78,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
                     1);
             return;
         }
-
         //retrieveData();
         //locationManager=(LocationManager)getSystemService(Context.LOCATION_SERVICE);
         //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
@@ -105,9 +98,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onStatusChanged(String provider, int status, Bundle extras) {
                     }
-
-
-
                 });
 
         LM.addNmeaListener(new GpsStatus.NmeaListener()  {
@@ -120,19 +110,10 @@ public class MainActivity extends AppCompatActivity {
         }
     });
 
-
-
-
         updateConversationHandler = new Handler();
-
         this.serverThread = new Thread(new ServerThread());
         this.serverThread.start();
     }
-
-
-
-
-
 
     @Override
     protected void onStop() {
@@ -143,12 +124,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
-
-
     class ServerThread implements Runnable {
-
         public void run() {
             Socket socket = null;
             try {
@@ -159,12 +135,9 @@ public class MainActivity extends AppCompatActivity {
             while (!Thread.currentThread().isInterrupted()) {
 
                 try {
-
                     socket = serverSocket.accept();
-
                     CommunicationThread commThread = new CommunicationThread(socket);
                     new Thread(commThread).start();
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -172,78 +145,39 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     class CommunicationThread implements Runnable {
-
         private Socket clientSocket;
-
         private BufferedReader input;
-
-
         //private LocationManager locationManager;
-
-
-
         public CommunicationThread(Socket clientSocket) {
-
             this.clientSocket = clientSocket;
-
             try {
-
                 this.input = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
         public void run() {
-
-
             while (!Thread.currentThread().isInterrupted()) {
-
                 try {
-
                     String read = input.readLine();
-
-
                     //write
-
                     //text.setText("Log: " + String.valueOf(location.getLongitude()));
-
-
-
                     BufferedWriter out = new BufferedWriter
                             (new OutputStreamWriter
                                     (clientSocket.getOutputStream()));
                     //getLocation();
-
-                   out.write(nmeaData);
+                    out.write(nmeaData);
                     out.newLine();
-
                     //out.newLine();
-                   out.flush();
-
-
+                    out.flush();
                     updateConversationHandler.post(new updateUIThread(read));
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
-
-
-
-
-
-
-
-
-
-
 
 
     }
@@ -258,9 +192,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             text.setText(text.getText().toString()+"Client Says: "+ msg + "\n");
-
-
-
 
         }
     }
